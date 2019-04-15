@@ -12,7 +12,7 @@ ___
 ### Directory tree
 The root project directory contains subdirectories for sound, graphics, and data processing. Each subfolder contains files relevant to the topic.  
 &nbsp;  
-Each subdirectory also has its own folder in which to place VHDL files. The Top-level VHDL file located in the root directory will be updated as modules are completed.
+Each subdirectory also holds its own VHDL files.
 
 ### Template for file headers:  
 ```
