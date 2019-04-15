@@ -3,7 +3,8 @@
 ### General ideas:
 - 2 atari 2600-style joysticks
   - consist of 5 momentary switches: 4 for direction, 1 for "other"
-  - pinout for female connector to the right ->
+  - pinout for female connector pictured:
+![pinout](/atari_pinout_female.png)
 - some kind of racing game
 - static background to simplify graphics logic
 - must keep track of what is track and what isn't--grass should slow you down
