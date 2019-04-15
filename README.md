@@ -1,4 +1,4 @@
-# [Game Title]
+# 
 
 An FPGA-based racing game inspired by the Atari 2600 game "Indy 500". 
 
@@ -9,13 +9,12 @@ Paige Shephard
 Joseph Reese  
 ___
 
-### DIRECTORY TREE
+### Directory tree
 The root project directory contains subdirectories for sound, graphics, and data processing. Each subfolder contains files relevant to the topic.  
 &nbsp;  
 Each subdirectory also has its own folder in which to place VHDL files. The Top-level VHDL file located in the root directory will be updated as modules are completed.
 
-### FILE HEADERS
-Standard template for file headers:  
+### Template for file headers:  
 ```
 /*  
  *  [Brief description of module] 
@@ -29,5 +28,5 @@ Standard template for file headers:
  *  Updated: 9 Apr 2019 by Barry
  */
 ```
-### VARIABLE NAMES
+### Variable names
 snake_case
