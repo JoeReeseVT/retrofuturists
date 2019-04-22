@@ -1,0 +1,18 @@
+
+ES 4 Project 
+
+lap counter and score pattern generator logic 
+
+
+score = start
+
+
+if row > [single number] and col = [single number]
+score <= score +1;
+
+
+score_on= [display of certain number] when score = [number] else score_on = [blank display] 
+
+
+
+start = no display yet 
