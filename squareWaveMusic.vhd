@@ -39,11 +39,13 @@ begin
 			   "10111101110001110" when (B4 = '0') else
 			   "10110011010000010" when (C5 = '0') else
 			   "10011111101101100" when (D5 = '0');
-	if counter = notesIn then
-		counter <= '0';
-		outWave <= not outWave;
-	else
-		counter <= counter + '1';
+	if rising_edge(clk)
+		if counter = notesIn then
+			counter <= '0';
+			outWave <= not outWave;
+		else
+			counter <= counter + '1';
+		end if;
 	end if;
 end process;
 end;
