@@ -24,32 +24,26 @@ port (
 );
 end component;
 
-component mux42 is 
-port (
-		d : in std_logic_vector(3 downto 0);
-		s : in std_logic_vector(1 downto 0);
-		y : out std_logic
-);
-end component;
-
 signal clk : std_logic;
-signal counter : unsigned(17 downto 0) := 18b"0"; 
-signal notesIn : std_logic_vector(3 downto 0);
-signal sel : std_logic_vector(1 downto 0);
+signal counter : unsigned(16 downto 0) := 17b"0"; 
+signal notesIn : std_logic_vector(16 downto 0) := 17b"0";
 
 begin
 clkSignal : HSOSC
 port map('1', '1', clk);
 
-noteOut : mux42
-port map(notesIn, sel, outWave);
-
 process(clk) is
 begin
-	if rising_edge(clk) then
-		counter <= counter + '1'
+	notesIn <= "11101111001010001" when (G4 = '0') else
+			   "11010101000100011" when (A4 = '0') else
+			   "10111101110001110" when (B4 = '0') else
+			   "10110011010000010" when (C5 = '0') else
+			   "10011111101101100" when (D5 = '0');
+	if counter = notesIn then
+		counter <= '0';
+		outWave <= not outWave;
+	else
+		counter <= counter + '1';
 	end if;
-	notesIn <= 
-	
 end process;
 end;
