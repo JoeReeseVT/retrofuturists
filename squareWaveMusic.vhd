@@ -26,7 +26,7 @@ end component;
 
 signal clk : std_logic;
 signal counter : unsigned(16 downto 0) := 17b"0"; 
-signal notesIn : std_logic_vector(16 downto 0) := 17b"0";
+signal notesIn : unsigned(16 downto 0) := 17b"0";
 
 begin
 clkSignal : HSOSC
@@ -34,14 +34,15 @@ port map('1', '1', clk);
 
 process(clk) is
 begin
-	notesIn <= "11101111001010001" when (G4 = '0') else
-			   "11010101000100011" when (A4 = '0') else
-			   "10111101110001110" when (B4 = '0') else
-			   "10110011010000010" when (C5 = '0') else
-			   "10011111101101100" when (D5 = '0');
-	if rising_edge(clk)
+	notesIn <= 17d"122449" when (G4 = '0') else
+			   17d"109091" when (A4 = '0') else
+			   17d"97166" when (B4 = '0') else
+			   17d"91778" when (C5 = '0') else
+			   17d"81772" when (D5 = '0') else
+			   17d"0";
+	if rising_edge(clk) then
 		if counter = notesIn then
-			counter <= '0';
+			counter <= 17b"0";
 			outWave <= not outWave;
 		else
 			counter <= counter + '1';
