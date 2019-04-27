@@ -1,0 +1,31 @@
+
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity lap counter is
+  port(
+	  row : in integer(9 downto 0);
+	  col: in integer(9 downto 0);
+	  
+
+
+	score : out unsigned(2 downto 0);	
+  );
+end scorepattern;
+
+architecture synth of lapcounter is
+
+
+begin
+
+
+
+if row > [single number] and col = [single number]
+score <= score +1;
+
+
+
+end;
+
+
