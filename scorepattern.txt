@@ -1,0 +1,50 @@
+
+
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity scorepattern is
+  port(
+	  vga_row : in unsigned(9 downto 0);
+	  vga_col: in unsigned(9 downto 0);
+	  score : in unsigned(2 downto 0);
+    
+    rgb_2: out unsigned(5 downto 0);
+	
+  );
+end scorepattern;
+
+architecture synth of scorepattern is
+
+
+begin
+
+
+score_on= 1 when score > 1 else score_on = 0; 
+if score_on =1
+    if score = 2 then
+      rgb_2 = [] -- display 1 
+      end if;
+    if score = 3 then
+      rgb_2 = [] -- display 2 
+      end if;
+    if score = 4 then 
+      rgb_2 = [] -- display 3 
+      end if;
+    if score = 5 then
+      rgb_2 = [] -- display 4 
+      end if:
+    if score = 6 then
+      rgb_2 = [] -- display 5
+      end if; 
+      
+ end if;
+
+
+
+--one display: vertical line down
+--two display: 5 lines in S- like shape
+--three display: 4lines in an E- like shape 
+--four display: 3 lines, 
+--five display: 5 lines, flipped version of two 
