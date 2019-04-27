@@ -5,12 +5,13 @@
  *  Author(s):
  *    Joe
  *
- *  Version 0.1.0
- *  Modified by Joe 16 Apr 2019
+ *  Version 0.1.1
+ *  Modified by Joe 27 Apr 2019:
+ *    Made it do half resolution for slightly less complex logic.
  */
 
 #include <cstdio>
-#include <iostream>
+#include <fstream>
 #include "bitmap_image.hpp"
 
 using namespace std;
@@ -24,38 +25,43 @@ int main() {
     return 1;
   }
   
+  ofstream outfile;
+  outfile.open ("constraints.txt");
+
   const unsigned int height = image.height();
   const unsigned int width  = image.width();
 
   bool found_color = false;
 
   unsigned char ref [3] = {0, 170, 0};
-  cout << "\"001000\" when\n";
+  outfile << "\"001000\" when\n";
 
-  for (size_t y = 0; y < height; y++) {
+  for (size_t y = 0; y < height; y += 2) {
     for (size_t x = 0; x < width; x++) {
       
       rgb_t c;
       image.get_pixel(x, y, c);
 
-      if (c.red == ref[0] and c.green == ref[1] and c.blue == ref[2]
-      and not found_color) {
+      if (c.red == ref[0] && c.green == ref[1] && c.blue == ref[2]
+      && !found_color) {
         found_color = true;
-        cout << "(vga_row = 10d\"" << y << "\" and (vga_col >= 10d\"" << x;
-      }
+        outfile << "((vga_row = 10d\"" << y << "\" or vga_row = 10d\"" << y + 1
+		<< "\") and (vga_col >= 10d\"" << x << "\" and vga_col < 10d\"";      }
 
       if (found_color) {
-        if (c.red != ref[0] or c.green != ref[1] or c.blue != ref[2]) {
+        if (c.red != ref[0] || c.green != ref[1] || c.blue != ref[2]) {
           found_color = false;
-          cout << "\" and vga_col < 10d\"" << x << "\")) or\n";
+          outfile << x << "\")) or\n";
         }
         else if (x == width - 1) {
           found_color = false;
-          cout << "\" and vga_col < 10d\"" << int(width) << "\")) or\n";
+          outfile << int(width) << "\")) or\n";
         }
       }
     }
   }
+
+  outfile.close();
 
   return 0;
 }
