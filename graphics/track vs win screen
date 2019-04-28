@@ -1,0 +1,41 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity screen is
+  port(
+		clk : in std_logic;
+		score : in  unsigned(2 downto 0);
+		reset_n	: in std_logic;
+		rgb_o 	: out	unsigned(5 downto 0)
+	);
+end;
+
+
+
+architecture synth of screen is
+
+type STATE is (BACKGROUND, WIN);  
+signal s : STATE := BACKGROUND;
+
+begin 
+process(clk) begin
+  if rising_edge(clk) then 
+		if s = BACKGROUND then
+			if score = 3d"5" then
+				rgb_o <= "000000";-- change win image;
+				s <= WIN;
+			else
+				s <= BACKGROUND;
+			end if;
+		end if;
+		if s = WIN then
+			if reset_n = '1' then
+				rgb_o <= "111111";-- change backgronud image
+			else 
+				s <= WIN;
+			end if;
+		end if;
+	end if;
+end process;
+end;
