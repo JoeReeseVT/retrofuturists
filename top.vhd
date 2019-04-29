@@ -4,11 +4,17 @@ use IEEE.numeric_std.all;
 
 entity top is
   port(
-    up_n    : in  std_logic; -- Buttons are active LOW
-    down_n  : in  std_logic;
-    left_n  : in  std_logic;
-    right_n : in  std_logic;
-    fire_n  : in  std_logic;
+    up_1    : in  std_logic; -- Buttons are active LOW
+    down_1  : in  std_logic; -- car #1
+    left_1  : in  std_logic;
+    right_1 : in  std_logic;
+    fire_1  : in  std_logic;
+		
+		up_2    : in  std_logic; -- Buttons are active LOW
+    down_2  : in  std_logic; -- car#2
+    left_2  : in  std_logic;
+    right_2 : in  std_logic;
+    fire_2  : in  std_logic;
     
     vsync, hsync : out std_logic;
     rgb_o   : out std_logic_vector(5 downto 0);
@@ -74,8 +80,8 @@ end component;
 
 component sprite_rgb is
   port(
+		color : in std_logic_vector(5 downto 0);
     vga_row, vga_col, pos_row, pos_col : in unsigned(9 downto 0);
-    direction : in unsigned(2 downto 0);
     sprite_on : out std_logic;
     rgb_o : out std_logic_vector(5 downto 0)
   );
@@ -83,6 +89,7 @@ end component;
 
 component score_rgb is 
 	port(
+		color : in std_logic_vector(5 downto 0);
 		score : in unsigned(2 downto 0);
 		vga_row, vga_col : in unsigned(9 downto 0);
 		score_on : out std_logic;
@@ -92,8 +99,8 @@ end component;
 
 component renderer is
   port(
-    track_rgb_i, sprite_rgb_i, score_rgb_i : in std_logic_vector(5 downto 0);
-    sprite_on, score_on : in std_logic;
+    track_rgb_i, sprite_rgb_i, score_rgb_i, sprite_rgb_i2, score_rgb_i2 : in std_logic_vector(5 downto 0);
+    sprite_on, score_on, sprite_on2, score_on2 : in std_logic;
     rgb_o : out std_logic_vector(5 downto 0)
   );
 end component;
@@ -117,25 +124,28 @@ end component;
 signal clk48 : std_logic;
 signal clk25 : std_logic;
 signal valid : std_logic;
-signal vga_row, vga_col, pos_row, pos_col : unsigned(9 downto 0);
+signal vga_row, vga_col, pos_row, pos_col, pos_row2, pos_col2 : unsigned(9 downto 0);
+
 signal vel_x, vel_y : signed(3 downto 0);
-signal tk_rgb, sp_rgb, sc_rgb : std_logic_vector(5 downto 0);
-signal sprite_on : std_logic;
-signal score_on  : std_logic;
-signal direction : unsigned(2 downto 0);
-signal score : unsigned(2 downto 0);
+signal vel_x2, vel_y2 : signed(3 downto 0);
+signal tk_rgb, sp_rgb, sp_rgb2, sc_rgb, sc_rgb2 : std_logic_vector(5 downto 0);
+signal sprite_on, sprite_on2 : std_logic;
+signal score_on, score_on2 : std_logic;
+signal score, score2 : unsigned(2 downto 0);
 
 begin
   hsosc_o <= clk48;
-  hsosc_1      : hsosc      port map('1', '1', clk48);
-	pll_1        : pll        port map(clk25, pll_o, clk48, '1');
-  vga_1        : vga        port map(clk25, valid, vga_row, vga_col, hsync, vsync);
-  pos_vel_1    : pos_vel    port map(vsync, up_n, down_n, left_n, right_n, fire_n, pos_row, pos_col, vel_x, vel_y);
-  track_rgb_1  : track_rgb  port map(vga_row, vga_col, tk_rgb);
-	sprite_rgb_1 : sprite_rgb port map(vga_row, vga_col, pos_row, pos_col, direction, sprite_on, sp_rgb);
-	score_rgb_1  : score_rgb  port map(score, vga_row, vga_col, score_on, sc_rgb);
-	renderer_1   : renderer   port map(tk_rgb, sp_rgb, sc_rgb, sprite_on, score_on, rgb_o);
-	direction_calc_1 : direction_calc port map(direction, vel_x, vel_y);
-	lap_logic_1  : lap_logic  port map(vsync, pos_col, pos_row, score);
-
-end;
+  hsosc_1      : hsosc       port map('1', '1', clk48);
+  pll_1        : pll         port map(clk25, pll_o, clk48, '1');
+  vga_1        : vga         port map(clk25, valid, vga_row, vga_col, hsync, vsync);
+  pos_vel_1    : pos_vel     port map(vsync, up_1, down_1, left_1, right_1, fire_1, pos_row, pos_col, vel_x, vel_y);
+	pos_vel_2 	 : pos_vel	   port map(vsync, up_2, down_2, left_2, right_2, fire_2, pos_row2, pos_col2, vel_x2, vel_y2);
+  track_rgb_1  : track_rgb   port map(vga_row, vga_col, tk_rgb);
+	sprite_rgb_1 : sprite_rgb  port map("110000", vga_row, vga_col, pos_row, pos_col, sprite_on, sp_rgb);
+	sprite_rgb_2 : sprite_rgb  port map("000011", vga_row, vga_col, pos_row2, pos_col2, sprite_on2, sp_rgb2);
+	score_rgb_1  : score_rgb   port map("110000", score, vga_row, vga_col, score_on, sc_rgb);
+	score_rgb_2  : score_rgb   port map("000011", score2, vga_row, vga_col, score_on2, sc_rgb2);
+	renderer_1   : renderer    port map(tk_rgb, sp_rgb, sc_rgb, sp_rgb2, sc_rgb2, sprite_on, score_on, sprite_on2, score_on2, rgb_o);
+	lap_logic_1  : lap_logic   port map(vsync, pos_col, pos_row, score);
+	lap_logic_2	 : lap_logic   port map(vsync, pos_col2, pos_row2, score2);
+end; 
