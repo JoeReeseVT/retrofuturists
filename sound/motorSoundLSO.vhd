@@ -17,7 +17,6 @@ end motorSound;
 
 architecture synth of motorSound is 
 
-signal clk : std_logic;
 signal counter : unsigned(5 downto 0) := 6b"0"; 
 signal notesIn : unsigned(5 downto 0) := 6b"0";
 signal addNotes : unsigned(5 downto 0) := 6b"0";
