@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
-entity motorSound is 
+entity motorSoundLSO is 
 	port (
 		velocity : in std_logic_vector(2 downto 0);
 		up 		 : in std_logic;
@@ -13,9 +13,9 @@ entity motorSound is
 		clk      : in std_logic;
 		outWave  : out std_logic
 		);
-end motorSound;
+end motorSoundLSO;
 
-architecture synth of motorSound is 
+architecture synth of motorSoundLSO is 
 
 signal counter : unsigned(5 downto 0) := 6b"0"; 
 signal notesIn : unsigned(5 downto 0) := 6b"0";
