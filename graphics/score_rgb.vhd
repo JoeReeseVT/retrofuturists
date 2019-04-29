@@ -36,6 +36,7 @@ begin
 		((vga_row >= 10d"44" and vga_row < 10d"48") and (vga_col >= 10d"492" and vga_col < 10d"500")) or
 		((vga_row >= 10d"48" and vga_row < 10d"52") and (vga_col >= 10d"484" and vga_col < 10d"496"))) else
 					color when score = 3d"1" and
+
 		(((vga_row >= 10d"16" and vga_row < 10d"20") and (vga_col >= 10d"480" and vga_col < 10d"492")) or
 		((vga_row >= 10d"20" and vga_row < 10d"24") and (vga_col >= 10d"488" and vga_col < 10d"492")) or
 		((vga_row >= 10d"24" and vga_row < 10d"28") and (vga_col >= 10d"488" and vga_col < 10d"492")) or
@@ -46,6 +47,7 @@ begin
 		((vga_row >= 10d"44" and vga_row < 10d"48") and (vga_col >= 10d"488" and vga_col < 10d"492")) or
 		((vga_row >= 10d"48" and vga_row < 10d"52") and (vga_col >= 10d"480" and vga_col < 10d"500"))) else
 					color when score = 3d"2" and
+
 		(((vga_row >= 10d"12" and vga_row < 10d"16") and (vga_col >= 10d"484" and vga_col < 10d"492")) or
 		((vga_row >= 10d"16" and vga_row < 10d"20") and (vga_col >= 10d"480" and vga_col < 10d"484")) or
 		((vga_row >= 10d"16" and vga_row < 10d"20") and (vga_col >= 10d"492" and vga_col < 10d"500")) or
@@ -58,6 +60,7 @@ begin
 		((vga_row >= 10d"44" and vga_row < 10d"48") and (vga_col >= 10d"480" and vga_col < 10d"488")) or
 		((vga_row >= 10d"48" and vga_row < 10d"52") and (vga_col >= 10d"480" and vga_col < 10d"500"))) else
 					color when score = 3d"3" and
+
 		(((vga_row >= 10d"12" and vga_row < 10d"16") and (vga_col >= 10d"480" and vga_col < 10d"496")) or
 		((vga_row >= 10d"16" and vga_row < 10d"20") and (vga_col >= 10d"492" and vga_col < 10d"500")) or
 		((vga_row >= 10d"20" and vga_row < 10d"24") and (vga_col >= 10d"496" and vga_col < 10d"500")) or
@@ -70,6 +73,7 @@ begin
 		((vga_row >= 10d"44" and vga_row < 10d"48") and (vga_col >= 10d"492" and vga_col < 10d"500")) or
 		((vga_row >= 10d"48" and vga_row < 10d"52") and (vga_col >= 10d"480" and vga_col < 10d"496"))) else
 					color when score = 3d"4" and
+
 		(((vga_row >= 10d"16" and vga_row < 10d"20") and (vga_col >= 10d"488" and vga_col < 10d"496")) or
 		((vga_row >= 10d"20" and vga_row < 10d"24") and (vga_col >= 10d"488" and vga_col < 10d"496")) or
 		((vga_row >= 10d"24" and vga_row < 10d"28") and (vga_col >= 10d"484" and vga_col < 10d"488")) or
@@ -84,6 +88,7 @@ begin
 		((vga_row >= 10d"44" and vga_row < 10d"48") and (vga_col >= 10d"492" and vga_col < 10d"496")) or
 		((vga_row >= 10d"48" and vga_row < 10d"52") and (vga_col >= 10d"492" and vga_col < 10d"496"))) else
 					color when score = 3d"5" and
+
 		(((vga_row >= 10d"12" and vga_row < 10d"16") and (vga_col >= 10d"480" and vga_col < 10d"500")) or
 		((vga_row >= 10d"16" and vga_row < 10d"20") and (vga_col >= 10d"480" and vga_col < 10d"484")) or
 		((vga_row >= 10d"20" and vga_row < 10d"24") and (vga_col >= 10d"480" and vga_col < 10d"484")) or

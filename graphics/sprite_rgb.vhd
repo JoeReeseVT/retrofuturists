@@ -15,6 +15,7 @@ use IEEE.numeric_std.all;
 
 entity sprite_rgb is
   port(
+
 		color : in std_logic_vector(5 downto 0);
     vga_row, vga_col, pos_row, pos_col : in unsigned(9 downto 0);
     sprite_on : out std_logic;
@@ -24,10 +25,9 @@ end sprite_rgb;
 
 architecture synth of sprite_rgb is
 
-
 begin
   sprite_on <= '0' when rgb_o = "000000" else '1';
-								 
+
 						 	 
 	rgb_o <= color when vga_col > pos_col - 10d"20" and vga_col < pos_col + 10d"20" and vga_row > pos_row - 10d"20" and vga_row < pos_row + 10d"20"
 								 else "000000";
