@@ -3,6 +3,7 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
 entity score_rgb is 
+
 	port(
 		player : in std_logic;
 		color : in std_logic_vector(5 downto 0);
@@ -16,8 +17,8 @@ end score_rgb;
 architecture synth of score_rgb is
 
 begin
-  score_on <= '1' when rgb_o /= "000000" else '0';
-	
+
+  score_on <= '1' when rgb_o /= "000000" else '0';	
 	rgb_o <= color when player = '0' and score = 3d"0" and
 		(((vga_row >= 10d"12" and vga_row < 10d"16") and (vga_col >= 10d"104" and vga_col < 10d"116")) or
 		((vga_row >= 10d"16" and vga_row < 10d"20") and (vga_col >= 10d"104" and vga_col < 10d"120")) or
@@ -37,7 +38,6 @@ begin
 		((vga_row >= 10d"44" and vga_row < 10d"48") and (vga_col >= 10d"480" and vga_col < 10d"484")) or
 		((vga_row >= 10d"44" and vga_row < 10d"48") and (vga_col >= 10d"492" and vga_col < 10d"500")) or
 		((vga_row >= 10d"48" and vga_row < 10d"52") and (vga_col >= 10d"484" and vga_col < 10d"496"))) else
-		
 					color when player = '1' and score = 3d"0" and
 		(((vga_row >= 10d"12" and vga_row < 10d"16") and (vga_col >= 10d"484" and vga_col < 10d"496")) or
 		((vga_row >= 10d"16" and vga_row < 10d"20") and (vga_col >= 10d"480" and vga_col < 10d"484")) or

@@ -15,9 +15,9 @@ entity top is
     left_2  : in  std_logic;
     right_2 : in  std_logic;
     fire_2  : in  std_logic;
-		
+	
 	  reset : in std_logic;
-    
+   
     vsync, hsync : out std_logic;
     rgb_o   : out std_logic_vector(5 downto 0);
     pll_o   : out std_logic;
@@ -133,11 +133,12 @@ component lap_logic is
     score 	: out  unsigned(2 downto 0) := 3d"5"
   );
 end component;
-
+  
 signal clk48  : std_logic;
 signal clk_10k : std_logic;
 signal clk25  : std_logic;
 signal valid  : std_logic;
+
 signal vga_row, vga_col, pos_row, pos_col, pos_row2, pos_col2 : unsigned(9 downto 0);
 
 signal vel_x, vel_y : signed(3 downto 0);
@@ -155,6 +156,7 @@ begin
   vga_1        : vga         port map(clk25, valid, vga_row, vga_col, hsync, vsync);
   pos_vel_1    : pos_vel     port map('0', clk_10k, vsync, up_1, down_1, left_1, right_1, fire_1, reset, pos_row, pos_col, vel_x, vel_y);
 	pos_vel_2 	 : pos_vel	   port map('1', clk_10k, vsync, up_2, down_2, left_2, right_2, fire_2, reset, pos_row2, pos_col2, vel_x2, vel_y2);
+
   track_rgb_1  : track_rgb   port map(vga_row, vga_col, tk_rgb);
 	sprite_rgb_1 : sprite_rgb  port map("110000", vga_row, vga_col, pos_row, pos_col, sprite_on, sp_rgb);
 	sprite_rgb_2 : sprite_rgb  port map("000011", vga_row, vga_col, pos_row2, pos_col2, sprite_on2, sp_rgb2);

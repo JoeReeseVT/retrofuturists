@@ -9,6 +9,9 @@ entity squareWaveMusic is
 		B4 : in std_logic;
 		C5 : in std_logic;
 		D5 : in std_logic;
+		E5 : in std_logic;
+		FS5 : in std_logic;
+		G5 : in std_logic;
 		outWave : out std_logic
 		);
 end squareWaveMusic;
@@ -39,6 +42,9 @@ begin
 			   17d"97166" when (B4 = '0') else
 			   17d"91778" when (C5 = '0') else
 			   17d"81772" when (D5 = '0') else
+			   17d"72838" when (E5 = '0') else
+			   17d"64865" when (FS5 = '0') else
+			   17d"61224" when (G5 = '0') else
 			   17d"0";
 	if rising_edge(clk) then
 		if counter = notesIn then
