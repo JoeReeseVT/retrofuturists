@@ -19,8 +19,9 @@ use IEEE.numeric_std.all;
 
 entity position is
   port(
-    clk : in  std_logic; 
-		vel_x, vel_y : in signed(3 downto 0);
+	  clk_main     : in  std_logic; -- fixed speed (really just for initializing)
+    clk_x, clk_y : in  std_logic; -- variable speed
+		neg_x, neg_y : in  std_logic;
     row : out unsigned(9 downto 0) := 10d"240";
     col : out unsigned(9 downto 0) := 10d"320"
   );
@@ -30,60 +31,64 @@ architecture synth of position is
 
 type state_t is (init, run);  
 signal state : state_t := init;
-signal count : unsigned(3 downto 0); -- Count to 7 for the init period
-
-signal spd_x, spd_y : unsigned(2 downto 0); -- These hold the "absolute value" of the signed velocity
-signal tmp_x, tmp_y : unsigned(3 downto 0); -- Used in the conversion from signed to unsigned
+signal count : unsigned(2 downto 0); -- Count to 7 for the init period
 
 begin        
-
-tmp_x <= unsigned(abs(vel_x));
-spd_x <= tmp_x(2 downto 0);
-
-tmp_y <= unsigned(abs(vel_y));
-spd_y <= tmp_y(2 downto 0);
-
-  process (clk) begin
-    if rising_edge(clk) then 
-		  case state is
-			  when init =>
-				  row <= 10d"240";
-					col <= 10d"320";
-					count <= count + 4d"1";
-					if count < 4d"7" then
-						state <= init;
-					else
-					  state <= run;
-					end if;
-					
-				when run =>
+  process (clk_main) begin
+		if rising_edge(clk_main) then
+/*
+		  if state = init then
+			
+				row <= 10d"240";
+				col <= 10d"320";
+				if count < 3d"7" then
+					count <= count + 3d"1";
+					state <= init;
+				else
 					state <= run;
-					
-					if col > 10d"831" then -- If we went off the left edge of the screen
-						col <= 10d"639";
-					elsif col > 10d"639" and col < 10d"832" then -- If we went off the right edge of the screen
-						col <= 10d"0";
-					else  
-						if vel_x < 4d"0" then
-							col <= col - spd_x;
-						else 
-							col <= col + spd_x;
-						end if;
+				end if;	
+				
+		  end if;
+*/	
+	  end if;
+	end process;
+
+  process (clk_x) begin
+    if rising_edge(clk_x) then 
+--	  	if state = run then
+
+				if col > 10d"831" then -- If we went off the left edge of the screen
+					col <= 10d"639";
+				elsif col > 10d"639" and col < 10d"832" then -- If we went off the right edge of the screen
+					col <= 10d"0";
+				else 
+					if neg_x then
+						col <= col - 10d"1";
+					else
+						col <= col + 10d"1";
 					end if;
-					
-					if row > 10d"751" then -- If we went off the top edge of the screen
-						row <= 10d"479";
-					elsif row > 10d"479" and row < 10d"752" then -- If we went off the bottom edge of the screen
-						row <= 10d"0";
-					else 
-						if vel_y < 4d"0" then
-							row <= row - spd_y;
-						else
-							row <= row + spd_y;
-						end if;
-					end if;			
-					
-			end case;
+				end if;
+				
+--		  end if;
+		end if;
+	end process;
+	
+	process (clk_y) begin
+    if rising_edge(clk_y) then 
+--		  if state = run then
+				if row > 10d"751" then -- If we went off the top edge of the screen
+					row <= 10d"479";
+				elsif row > 10d"479" and row < 10d"752" then -- If we went off the bottom edge of the screen
+					row <= 10d"0";
+				else 
+					if neg_y then
+						row <= row - 10d"1";
+					else
+						row <= row + 10d"1";
+					end if;
+				end if;			
+				
+--			end if;
     end if;
   end process;
 end;
