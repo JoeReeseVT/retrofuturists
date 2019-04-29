@@ -23,7 +23,7 @@ process(clk) begin
 		if s = HALF then 
 --		  state_o <= '1';
 		  score <= score;
-			if pos_row > 10d"220" and pos_row < 10d"260" and pos_col > 10d"0" and pos_col < 10d"100" then
+			if pos_row > 10d"220" and pos_row < 10d"260" and pos_col > 10d"400" and pos_col < 10d"540" then
 				s <= LAST;
 			else
 				s <= HALF;
@@ -33,7 +33,7 @@ process(clk) begin
 		if s = LAST then
 --		  state_o <= '0';
 	    score <= score;
-			if pos_row > 10d"220" and pos_row < 10d"260" and pos_col > 10d"540" and pos_col < 10d"640" then
+			if pos_row > 10d"220" and pos_row < 10d"260" and pos_col > 10d"0" and pos_col < 10d"100" then
 			  if score = 3d"5" then
 				  score <= 3d"0";
 				else

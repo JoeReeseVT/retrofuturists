@@ -19,6 +19,8 @@ use IEEE.numeric_std.all;
 
 entity position is
   port(
+	  reset        : in std_logic;
+	  player       : in  std_logic;
 	  clk_main     : in  std_logic; -- fixed speed (really just for initializing)
     clk_x, clk_y : in  std_logic; -- variable speed
 		neg_x, neg_y : in  std_logic;
@@ -29,34 +31,29 @@ end position;
 
 architecture synth of position is
 
-type state_t is (init, run);  
-signal state : state_t := init;
 signal count : unsigned(2 downto 0); -- Count to 7 for the init period
+--signal init  : std_logic := '1';
 
 begin        
+/*
   process (clk_main) begin
 		if rising_edge(clk_main) then
-/*
-		  if state = init then
-			
-				row <= 10d"240";
-				col <= 10d"320";
-				if count < 3d"7" then
-					count <= count + 3d"1";
-					state <= init;
-				else
-					state <= run;
-				end if;	
-				
-		  end if;
-*/	
+		  if init then
+			  init <= '0';
+			end if;
 	  end if;
 	end process;
+*/
 
-  process (clk_x) begin
-    if rising_edge(clk_x) then 
---	  	if state = run then
-
+  process (clk_x, reset) begin
+		if not reset then
+			  if player then
+					col <= 10d"70";
+				else
+				  col <= 10d"30";
+				end if;
+    elsif rising_edge(clk_x) then 
+--				init <= '0';
 				if col > 10d"831" then -- If we went off the left edge of the screen
 					col <= 10d"639";
 				elsif col > 10d"639" and col < 10d"832" then -- If we went off the right edge of the screen
@@ -68,14 +65,13 @@ begin
 						col <= col + 10d"1";
 					end if;
 				end if;
-				
---		  end if;
-		end if;
+		  end if;
 	end process;
 	
-	process (clk_y) begin
-    if rising_edge(clk_y) then 
---		  if state = run then
+	process (clk_y, reset) begin
+		if not reset then
+				row <= 10d"310"; 
+    elsif rising_edge(clk_y) then 
 				if row > 10d"751" then -- If we went off the top edge of the screen
 					row <= 10d"479";
 				elsif row > 10d"479" and row < 10d"752" then -- If we went off the bottom edge of the screen
@@ -86,9 +82,7 @@ begin
 					else
 						row <= row + 10d"1";
 					end if;
-				end if;			
-				
---			end if;
+				end if;	
     end if;
   end process;
 end;
