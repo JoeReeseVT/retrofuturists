@@ -16,17 +16,29 @@ use IEEE.numeric_std.all;
 
 entity renderer is
   port(
-    track_rgb_i, sprite_rgb_i, score_rgb_i : in std_logic_vector(5 downto 0);
-    sprite_on, score_on : in std_logic;
+    track_rgb_i, sprite_rgb_i, score_rgb_i, sprite_rgb_i2, score_rgb_i2 : in std_logic_vector(5 downto 0);
+    sprite_on, score_on, sprite_on2, score_on2 : in std_logic;
     rgb_o : out std_logic_vector(5 downto 0)
+		
+		
   );
 end renderer;
 
 architecture synth of renderer is
 
 begin 
-  rgb_o <= score_rgb_i  when score_on else 
+/*
+  rgb_o <= --score_rgb_i  when score_on else 
+	         --sprite_rgb_i when sprite_on else
+					 score_rgb_i2 when sprite_on2 else
+					 sprite_rgb_i2 when sprite_on2 else
+					 track_rgb_i;
+					 */
+					 
+	rgb_o <= score_rgb_i  when score_on else 
 	         sprite_rgb_i when sprite_on and (not score_on) else
+					 score_rgb_i2  when score_on2 else 
+	         sprite_rgb_i2 when sprite_on2 and (not score_on2) else
 					 track_rgb_i;
   
 end;
