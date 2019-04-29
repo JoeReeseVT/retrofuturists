@@ -15,7 +15,9 @@ entity top is
     left_2  : in  std_logic;
     right_2 : in  std_logic;
     fire_2  : in  std_logic;
-    
+	
+	  reset : in std_logic;
+   
     vsync, hsync : out std_logic;
     rgb_o   : out std_logic_vector(5 downto 0);
     pll_o   : out std_logic;
@@ -24,6 +26,14 @@ entity top is
 end top;
 
 architecture synth of top is
+
+component lsosc is
+  port(
+    clklfpu : in  std_logic := 'X';
+    clklfen : in  std_logic := 'X';
+    clklf   : out std_logic := 'X'
+  );
+end component;
 
 component hsosc is
   generic(
@@ -58,12 +68,15 @@ end component;
 
 component pos_vel is
   port(
+	  player  : in std_logic;
+	  clk_10k : in  std_logic;
     clk60   : in  std_logic;
     up_n    : in  std_logic; -- Buttons are active LOW
     down_n  : in  std_logic;
     left_n  : in  std_logic;
     right_n : in  std_logic;
     fire_n  : in  std_logic;
+	  reset : in std_logic;
     pos_row : out unsigned(9 downto 0); 
     pos_col : out unsigned(9 downto 0);
     vel_x   : out signed(3 downto 0);
@@ -120,10 +133,12 @@ component lap_logic is
     score 	: out  unsigned(2 downto 0) := 3d"5"
   );
 end component;
+  
+signal clk48  : std_logic;
+signal clk_10k : std_logic;
+signal clk25  : std_logic;
+signal valid  : std_logic;
 
-signal clk48 : std_logic;
-signal clk25 : std_logic;
-signal valid : std_logic;
 signal vga_row, vga_col, pos_row, pos_col, pos_row2, pos_col2 : unsigned(9 downto 0);
 
 signal vel_x, vel_y : signed(3 downto 0);
@@ -136,10 +151,12 @@ signal score, score2 : unsigned(2 downto 0);
 begin
   hsosc_o <= clk48;
   hsosc_1      : hsosc       port map('1', '1', clk48);
+	lsosc_1      : lsosc       port map('1', '1', clk_10k);
   pll_1        : pll         port map(clk25, pll_o, clk48, '1');
   vga_1        : vga         port map(clk25, valid, vga_row, vga_col, hsync, vsync);
-  pos_vel_1    : pos_vel     port map(vsync, up_1, down_1, left_1, right_1, fire_1, pos_row, pos_col, vel_x, vel_y);
-	pos_vel_2 	 : pos_vel	   port map(vsync, up_2, down_2, left_2, right_2, fire_2, pos_row2, pos_col2, vel_x2, vel_y2);
+  pos_vel_1    : pos_vel     port map('0', clk_10k, vsync, up_1, down_1, left_1, right_1, fire_1, reset, pos_row, pos_col, vel_x, vel_y);
+	pos_vel_2 	 : pos_vel	   port map('1', clk_10k, vsync, up_2, down_2, left_2, right_2, fire_2, reset, pos_row2, pos_col2, vel_x2, vel_y2);
+
   track_rgb_1  : track_rgb   port map(vga_row, vga_col, tk_rgb);
 	sprite_rgb_1 : sprite_rgb  port map("110000", vga_row, vga_col, pos_row, pos_col, sprite_on, sp_rgb);
 	sprite_rgb_2 : sprite_rgb  port map("000011", vga_row, vga_col, pos_row2, pos_col2, sprite_on2, sp_rgb2);

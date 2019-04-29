@@ -29,7 +29,7 @@ begin
   sprite_on <= '0' when rgb_o = "000000" else '1';
 
 						 	 
-	rgb_o <= color when vga_col > pos_col - 10d"20" and vga_col < pos_col + 10d"20" and vga_row > pos_row - 10d"20" and vga_row < pos_row + 10d"20"
+	rgb_o <= color when vga_col > pos_col - 10d"10" and vga_col < pos_col + 10d"10" and vga_row > pos_row - 10d"10" and vga_row < pos_row + 10d"10"
 								 else "000000";
 
 end;
