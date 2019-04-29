@@ -1,61 +1,71 @@
-/*  Convert a bitmap image to VHDL code for outputting to VGA.
- *
- *  DO NOT USE THIS PROGRAM WITHOUT VIEWING THE README.
- *
- *  Author(s):
- *    Joe
- *
- *  Version 0.1.0
- *  Modified by Joe 16 Apr 2019
- */
-
-#include <cstdio>
+#include <fstream>
 #include <iostream>
 #include "bitmap_image.hpp"
 
 using namespace std;
 
-int main() {
-  bitmap_image image("track.bmp");
+int main(int argc, char *argv[]) {
+
+  string path;
+
+  if (argc != 2) {
+    cerr << "Usage: " << argv[0] << "[-r] FILENAME\n";
+    return(1);
+  }
+  else 
+    path = argv[1];
+  
+  bitmap_image image(path);
 
   if (!image)
   {
-    printf("Error - Failed to open: input.bmp\n");
+    cerr << "Error - Failed to open: " << path << "\n";
     return 1;
   }
-  
+
+  for (int i = 0; i < 4; i++)
+    path.pop_back();
+
+  string out_path = "output\\" + path + "_constraints.txt";
+
+  ofstream outfile;
+  outfile.open (out_path);
+
+  cout << "Writing constraints to " << out_path << endl;
+
   const unsigned int height = image.height();
   const unsigned int width  = image.width();
 
-  bool found_color = false;
-
-  unsigned char ref [3] = {0, 170, 0};
-  cout << "\"001000\" when\n";
-
-  for (size_t y = 0; y < height; y++) {
-    for (size_t x = 0; x < width; x++) {
+  bool   found_color = false;
+  
+  for (size_t y = 0; y < height; y += 4) {
+    for (size_t x = 0; x < width; x += 4) {
       
       rgb_t c;
       image.get_pixel(x, y, c);
 
-      if (c.red == ref[0] and c.green == ref[1] and c.blue == ref[2]
-      and not found_color) {
+      if (c.red == 255 && !found_color) {
         found_color = true;
-        cout << "(vga_row = 10d\"" << y << "\" and (vga_col >= 10d\"" << x;
+        outfile << "((vga_row >= 10d\"" << y 
+                << "\" and vga_row < 10d\"" << y + 4
+            		<< "\") and (vga_col >= 10d\"" << x 
+                << "\" and vga_col < 10d\"";
       }
 
       if (found_color) {
-        if (c.red != ref[0] or c.green != ref[1] or c.blue != ref[2]) {
+        if (c.red != 255) {
           found_color = false;
-          cout << "\" and vga_col < 10d\"" << x << "\")) or\n";
+          outfile << x << "\")) or\n";
         }
         else if (x == width - 1) {
           found_color = false;
-          cout << "\" and vga_col < 10d\"" << int(width) << "\")) or\n";
+          outfile << int(width) << "\")) or\n";
         }
       }
     }
-  }
+  }  
+  
+  outfile.close();
 
   return 0;
 }
