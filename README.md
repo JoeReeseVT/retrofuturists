@@ -9,24 +9,7 @@ Paige Shephard
 Joseph Reese  
 ___
 
-### Directory tree
-The root project directory contains subdirectories for sound, graphics, and data processing. Each subfolder contains files relevant to the topic.  
-&nbsp;  
-Each subdirectory also holds its own VHDL files.
+### Basic premise  
+This project is written in VHDL for the Lattice iCE40UP5K FPGA. There are two players. Each uses an Atari-like joystick (4 directions and a "fire" button) to  control the movement of a small colored square. The goal is to navigate this "car" around a track to complete 5 laps before your opponent.
 
-### Template for file headers:  
-```
-/*  
- *  [Brief description of module] 
- *  
- *  Author(s) :
- *    Sally
- *    Barry
- *    Gronk
- *
- *  Version: Z.Y.Z
- *  Updated: 9 Apr 2019 by Barry
- */
-```
-### Variable names
-snake_case
+Currently, there is no win-state for the game, and there are several visual oddities resulting from our method of graphics rendering.
