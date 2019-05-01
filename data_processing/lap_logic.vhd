@@ -37,6 +37,7 @@ entity lap_logic is
 		pos_col : in  unsigned(9 downto 0);
 		pos_row : in  unsigned(9 downto 0);
 		
+		win_on				: out std_logic			 := '0';
     score 	: out unsigned(2 downto 0) := 3d"0"
   );
 end lap_logic;
@@ -50,7 +51,8 @@ signal s : state := half;
 begin 
 process(clk, reset) begin
   if not reset then
-    score <= 3d"0"; 
+    score   <= 3d"0";
+		win_on <= '0';
 
 	elsif rising_edge(clk) then 	
 	
@@ -72,6 +74,7 @@ process(clk, reset) begin
 			   pos_col > 10d"20"  and pos_col < 10d"120" then
 				if score = 3d"5" then
 					score <= 3d"0";
+					win_on <= '1';
 				else
 					score <= score + 3d"1";
 				end if;
