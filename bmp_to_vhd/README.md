@@ -1,7 +1,7 @@
 # bmp_to_vhd
 
 ```
-Usage: bmp_to_vhd [-d|--downscale] INT FILENAME
+Usage: bmp_to_vhd [-d|--downscale INT] FILENAME
 -d will downsample the image dimensions to 1/INT.
 ```
 
