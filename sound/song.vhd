@@ -2,31 +2,29 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
-entity laCuc is
+entity song is
 	port (
-	wave : out std_logic;
-	flag : out std_logic
+	  clk25 : in std_logic;
+		wave : out std_logic
 	);
-end laCuc;
+end song;
 	
-architecture synth of laCuc is 
+architecture synth of song is 
 component squareWaveMusic is
-port (
+port (	  clk25 : in std_logic;
 		G4 : in std_logic;
 		A4 : in std_logic;
-		B4 : in std_logic; -- Flat
+		B4 : in std_logic;
 		C5 : in std_logic;
 		D5 : in std_logic;
 		E5 : in std_logic;
 		F5 : in std_logic;
 		G5 : in std_logic;
 		A5 : in std_logic;
-		outWave : out std_logic;
-		clkSig : out std_logic
-);
+		outWave : out std_logic
+	);
 end component;
 
-signal clk : std_logic;
 signal counter : unsigned(23 downto 0) := 24b"0"; 
 signal noteCount : unsigned(6 downto 0) := 7b"0";
 
@@ -42,13 +40,12 @@ constant G1 : std_logic_vector(95 downto 0):= "000000"&"000000"&"000000"&"000000
 
 begin
 mlody : squareWaveMusic
-port map (G1(to_integer(noteCount)), A(to_integer(noteCount)), B(to_integer(noteCount)), C(to_integer(noteCount)), D(to_integer(noteCount)), E(to_integer(noteCount)), F(to_integer(noteCount)), G2(to_integer(noteCount)), A2(to_integer(noteCount)), wave, clk);
+port map (clk25, G1(to_integer(noteCount)), A(to_integer(noteCount)), B(to_integer(noteCount)), C(to_integer(noteCount)), D(to_integer(noteCount)), E(to_integer(noteCount)), F(to_integer(noteCount)), G2(to_integer(noteCount)), A2(to_integer(noteCount)), wave);
 
-process(clk) is
+process(clk25) is
 begin
-	if rising_edge(clk) then
+	if rising_edge(clk25) then
 		if counter = 24d"4486607" then
-			flag <= not flag;
 			counter <= 24b"0";
 			if noteCount = 7d"95" then
 				noteCount <= 7b"0";
