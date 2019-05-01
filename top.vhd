@@ -127,6 +127,16 @@ component track_rgb is
   );
 end component;
 
+component win_rgb is
+  port(
+		player	: in  std_logic;
+    vga_row : in  unsigned(9 downto 0);
+		vga_col : in  unsigned(9 downto 0);
+		
+    rgb_o   : out std_logic_vector(5 downto 0)
+  );
+end component;
+
 /* Generate the RGB pattern for the player's "car" */
 component sprite_rgb is
   port(
@@ -174,6 +184,12 @@ component renderer is
 		sprite_on2    : in std_logic;
 		score_on2     : in std_logic;
 		
+		win_rgb_r     : in std_logic_vector(5 downto 0);
+		win_rgb_b     : in std_logic_vector(5 downto 0);
+		
+		red_on				: in std_logic;
+		blue_on				: in std_logic;
+		
     rgb_o         : out std_logic_vector(5 downto 0)	
   );
 end component;
@@ -187,6 +203,7 @@ component lap_logic is
 		pos_col : in  unsigned(9 downto 0);
 		pos_row : in  unsigned(9 downto 0);
 		
+		win_on	: out std_logic			 := '0';
     score 	: out unsigned(2 downto 0) := 3d"0"
   );
 end component;
@@ -209,7 +226,7 @@ signal pos_row2 : unsigned(9 downto 0);
 signal pos_col2 : unsigned(9 downto 0);
 
 /* Player velocity data (UNUSED) */
-signal vel_x  : signed(3 downto 0);signal vel_y  : signed(3 downto 0);
+signal vel_x  : signed(3 downto 0);signal vel_y  : signed(3 downto 0);
 
 signal vel_x2 : signed(3 downto 0);
 signal vel_y2 : signed(3 downto 0);
@@ -223,10 +240,16 @@ signal sp_rgb2 : std_logic_vector(5 downto 0);
 signal sc_rgb  : std_logic_vector(5 downto 0); -- score_rgb
 signal sc_rgb2 : std_logic_vector(5 downto 0);
 
-/* Flags sent to renderer */
-signal sprite_on  : std_logic;signal sprite_on2 : std_logic;
+signal wr_rgb  : std_logic_vector(5 downto 0); -- win_rgb;
+signal wb_rgb  : std_logic_vector(5 downto 0);
 
-signal score_on   : std_logic;signal score_on2  : std_logic;
+
+/* Flags sent to renderer */
+signal sprite_on  : std_logic;signal sprite_on2 : std_logic;
+
+signal score_on   : std_logic;signal score_on2  : std_logic;
+
+signal red_on		: std_logic;  signal blue_on			: std_logic;
 
 /* Score values */
 signal score  : unsigned(2 downto 0);
@@ -253,8 +276,9 @@ begin
 	score_rgb_1  : score_rgb   port map('0', "110000", score, vga_row, vga_col, score_on, sc_rgb);
 	score_rgb_2  : score_rgb   port map('1', "000011", score2, vga_row, vga_col, score_on2, sc_rgb2);
 	
-	renderer_1   : renderer    port map(tk_rgb, sp_rgb, sc_rgb, sp_rgb2, sc_rgb2, sprite_on, score_on, sprite_on2, score_on2, rgb_o);
+	lap_logic_1  : lap_logic   port map(reset, vsync, pos_col, pos_row, red_on, score);
+	lap_logic_2	 : lap_logic   port map(reset, vsync, pos_col2, pos_row2, blue_on, score2);
 	
-	lap_logic_1  : lap_logic   port map(reset, vsync, pos_col, pos_row, score);
-	lap_logic_2	 : lap_logic   port map(reset, vsync, pos_col2, pos_row2, score2);
+	renderer_1   : renderer    port map(tk_rgb, sp_rgb, sc_rgb, sp_rgb2, sc_rgb2, sprite_on, score_on, sprite_on2, score_on2, wr_rgb, wb_rgb, red_on, blue_on, rgb_o);
+	
 end; 
