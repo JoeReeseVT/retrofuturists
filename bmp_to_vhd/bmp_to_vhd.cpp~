@@ -2,9 +2,11 @@
  *
  *  DO NOT USE THIS PROGRAM WITHOUT VIEWING THE README.
  *
- *  Bitmap interpreting library by Arash Partow:
- *  http://partow.net/programming/bitmap/index.html
+ *  Author(s):
+ *    Joe
  *
+ *  Version 0.1.0
+ *  Modified by Joe 16 Apr 2019
  */
 
 #include <cstdio>
@@ -26,6 +28,9 @@ int main() {
   const unsigned int width  = image.width();
 
   bool found_color = false;
+
+  unsigned char ref [3] = {0, 170, 0};
+  cout << "\"001000\" when\n";
 
   for (size_t y = 0; y < height; y++) {
     for (size_t x = 0; x < width; x++) {

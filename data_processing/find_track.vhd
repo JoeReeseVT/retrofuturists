@@ -1,11 +1,25 @@
+/*
+ *	Module to read in player's position on the screen to determine if it is within
+ *	the track (the black part of the background) or not. Uses the same constraints
+ *	as those used to generate the background itself. If outside, outputs '1'.
+ *
+ *	Inputs:
+ *		pos_row/col - Player's current position. (480,640) is bottom-right.
+ *
+ *	Output:
+ *		off_track - '1' when position is outside the track constraints, else '0'.
+ *
+ */
+
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
 entity find_track is
   port(
-	  pos_row, pos_col : in  unsigned(9 downto 0);
-		off_track        : out std_logic
+	  pos_row   : in  unsigned(9 downto 0);
+		pos_col   : in  unsigned(9 downto 0);
+		off_track : out std_logic
   );
 end find_track;
 
@@ -269,5 +283,6 @@ begin
 		((pos_row >= 10d"460" and pos_row < 10d"464") and (pos_col >= 10d"460" and pos_col < 10d"568")) or
 		((pos_row >= 10d"464" and pos_row < 10d"468") and (pos_col >= 10d"104" and pos_col < 10d"288")) or
 		((pos_row >= 10d"468" and pos_row < 10d"472") and (pos_col >= 10d"116" and pos_col < 10d"260")) or
-		((pos_row >= 10d"472" and pos_row < 10d"476") and (pos_col >= 10d"128" and pos_col < 10d"248")) else '1';
+		((pos_row >= 10d"472" and pos_row < 10d"476") and (pos_col >= 10d"128" and pos_col < 10d"248")) 
+					else '1';
 end;

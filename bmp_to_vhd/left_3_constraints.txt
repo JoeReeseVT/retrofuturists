@@ -1,0 +1,12 @@
+((vga_row >= 10d"12" and vga_row < 10d"16") and (vga_col >= 10d"160" and vga_col < 10d"176")) or
+((vga_row >= 10d"16" and vga_row < 10d"20") and (vga_col >= 10d"156" and vga_col < 10d"160")) or
+((vga_row >= 10d"16" and vga_row < 10d"20") and (vga_col >= 10d"172" and vga_col < 10d"180")) or
+((vga_row >= 10d"20" and vga_row < 10d"24") and (vga_col >= 10d"176" and vga_col < 10d"180")) or
+((vga_row >= 10d"24" and vga_row < 10d"28") and (vga_col >= 10d"172" and vga_col < 10d"180")) or
+((vga_row >= 10d"28" and vga_row < 10d"32") and (vga_col >= 10d"164" and vga_col < 10d"172")) or
+((vga_row >= 10d"32" and vga_row < 10d"36") and (vga_col >= 10d"172" and vga_col < 10d"180")) or
+((vga_row >= 10d"36" and vga_row < 10d"40") and (vga_col >= 10d"176" and vga_col < 10d"180")) or
+((vga_row >= 10d"40" and vga_row < 10d"44") and (vga_col >= 10d"176" and vga_col < 10d"180")) or
+((vga_row >= 10d"44" and vga_row < 10d"48") and (vga_col >= 10d"156" and vga_col < 10d"160")) or
+((vga_row >= 10d"44" and vga_row < 10d"48") and (vga_col >= 10d"172" and vga_col < 10d"180")) or
+((vga_row >= 10d"48" and vga_row < 10d"52") and (vga_col >= 10d"156" and vga_col < 10d"176")) or
