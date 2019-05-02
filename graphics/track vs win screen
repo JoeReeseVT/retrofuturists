@@ -1,0 +1,52 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity win_screen is
+  port(
+		clk : in std_logic;
+		score_b : in  unsigned(2 downto 0);
+		score_r : in  unsigned(2 downto 0);
+		reset_n	: in std_logic;
+		rgb_o 	: out	unsigned(5 downto 0)
+	);
+end;
+
+
+
+architecture synth of win_screen is
+
+type STATE is (BACKGROUND, WIN_R, WIN_B);  
+signal s : STATE := BACKGROUND;
+
+begin 
+process(clk) begin
+  if rising_edge(clk) then 
+		if s = BACKGROUND then
+			if score_r = 3d"5" then
+				rgb_o <= "110000";-- change to win Red image;
+				s <= WIN_r;
+			elsif score_b = 3d"5" then
+				rgb_o <= "000011";-- change to win Blue image;
+				s <= WIN_B;
+			else
+				s <= BACKGROUND;
+			end if;
+		end if;
+		if s = WIN_R then
+			if reset_n = '1' then
+				rgb_o <= "111111";-- change background image to track
+			else 
+				s <= WIN_R;
+			end if;
+		end if;
+		if s = WIN_B then
+			if reset_n = '1' then
+				rgb_o <= "111111";-- change background image to track
+			else 
+				s <= WIN_B;
+			end if;
+		end if;
+	end if;
+end process;
+end;

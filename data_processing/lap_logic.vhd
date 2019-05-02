@@ -61,22 +61,22 @@ process(clk, reset) begin
 			score <= score;
 			if pos_row > 10d"220" and pos_row < 10d"260" and 
 			   pos_col > 10d"480" and pos_col < 10d"600" then
-				s <= half;
+				s <= last;
 			else
 				s <= half;
 			end if;
-		end if;
 		
 		/* Left region is active */
-		if s = last then
+		elsif s = last then
 			score <= score;
 			if pos_row > 10d"220" and pos_row < 10d"260" and 
 			   pos_col > 10d"20"  and pos_col < 10d"120" then
-				if score = 3d"5" then
-					score <= 3d"0";
+				if score = 3d"4" then
 					win_on <= '1';
+					score <= 3d"5";
 				else
 					score <= score + 3d"1";
+					win_on <= '0';
 				end if;
 				s <= half;
 			else 
