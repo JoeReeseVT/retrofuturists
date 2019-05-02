@@ -39,6 +39,8 @@ entity top is
 		hsync   : out std_logic;		
     rgb_o   : out std_logic_vector(5 downto 0);
 		
+    sound_o : out std_logic;
+
 		/* Debugging outputs */
     pll_o   : out std_logic;
 		hsosc_o : out std_logic 
@@ -207,7 +209,14 @@ component lap_logic is
     score 	: out unsigned(2 downto 0) := 3d"0"
   );
 end component;
-
+	
+component song is
+	port (
+	  clk25 : in std_logic;
+		wave : out std_logic
+	);
+end component;
+	
 /* Clocks */
 signal clk_10k : std_logic; -- 10 kHz clock from LSOSC
 signal clk48   : std_logic;  -- 48 MHz clock from HSOSC
@@ -280,5 +289,6 @@ begin
 	lap_logic_2	 : lap_logic   port map(reset, vsync, pos_col2, pos_row2, blue_on, score2);
 	
 	renderer_1   : renderer    port map(tk_rgb, sp_rgb, sc_rgb, sp_rgb2, sc_rgb2, sprite_on, score_on, sprite_on2, score_on2, wr_rgb, wb_rgb, red_on, blue_on, rgb_o);
-	
+
+	song_1       : song        port map(clk25, sound_o);
 end; 
