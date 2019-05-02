@@ -285,6 +285,9 @@ begin
 	score_rgb_1  : score_rgb   port map('0', "110000", score, vga_row, vga_col, score_on, sc_rgb);
 	score_rgb_2  : score_rgb   port map('1', "000011", score2, vga_row, vga_col, score_on2, sc_rgb2);
 	
+	win_rgb1 		 : win_rgb		port map('0', vga_row, vga_col, wr_rgb);
+	win_rgb2 		 : win_rgb    port map('1', vga_row, vga_col, wb_rgb);
+	
 	lap_logic_1  : lap_logic   port map(reset, vsync, pos_col, pos_row, red_on, score);
 	lap_logic_2	 : lap_logic   port map(reset, vsync, pos_col2, pos_row2, blue_on, score2);
 	

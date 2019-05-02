@@ -39,7 +39,7 @@ constant A : std_logic_vector(95 downto 0) := "000000"&"000000"&"000000"&"001000
 constant G1 : std_logic_vector(95 downto 0):= "000000"&"000000"&"000000"&"000000"&"000000"&"000000"&"000000"&"000000"&"000000"&"011000"&"000000"&"000000"&"000000"&"000000"&"000000"&"000000";
 
 begin
-mlody : squareWaveMusic
+melody : squareWaveMusic
 port map (clk25, G1(to_integer(noteCount)), A(to_integer(noteCount)), B(to_integer(noteCount)), C(to_integer(noteCount)), D(to_integer(noteCount)), E(to_integer(noteCount)), F(to_integer(noteCount)), G2(to_integer(noteCount)), A2(to_integer(noteCount)), wave);
 
 process(clk25) is
