@@ -1,16 +1,27 @@
 # bmp_to_vhd
 
+```
+Usage: bmp_to_vhd [-d|--downscale INT] FILENAME
+-d will downsample the image dimensions to 1/INT.
+```
+
 The purpose of this little c++ script is to take an input image and convert it to constraints that can be copy-pasted into VHDL code for VGA display.  
 
-THIS ONLY WORKS IF YOUR IMAGE IS TITLED `track.bmp`.    
+It may fail for certain types of bmp. I know for a fact it works if you use MS Paint, or if you export as a 24-bit bmp in GIMP with the "export colorspace information" setting unchecked.
 
-It also may fail for certain types of bmp. I know for a fact it works if you use MS Paint, or if you export as a 24-bit bmp in GIMP with the "export colorspace information" setting unchecked.
+To use it, you need to clone/download this Git repository, navigate to this directory, and compile the program via command line. 
 
-To use it, you need to clone/download this Git repository, navigate to this directory, and compile the program using g++ or clang++.
+If you want to compile on Windows, download the free version of Visual Studio. In the Visual Studio installer program, select "Desktop Development with C++". You don't need any of the other tools for this. After the module downloads and installs itself, search the Start Menu for "Developer Command Prompt". If it comes up, type `cl` to make sure the command is recognized. You should get a "usage" message. Navigate to the bmp_to_vhd directory and type:
+
+```
+cl /EHsc /std:c++17 bmp_to_vhd.cpp
+``` 
+
+The program should compile. Now to run it, simply type `bmp_to_vhd` and you should again see a usage message appear.
 
 The code is SUPER JANKY and COBBLED TOGETHER so be careful!
 
-You have to manually set the (decimal) values of R, G, and B you're looking for (in the variable ref) as well as what 6-bit RGB binary code it corresponds to. Right now it only works on one color at a time, i.e. you have to generate the code for one color, then modify the cpp and recompile, then do the next, etc. It's awful!
+The program looks for RED (RGB 255 0 0 or hex FF0000) to define its constraints. Obviously you can use the constraints generated to make any color you want in VHDL. The choice of RED is basically arbitrary.
 
 FINAL NOTE, VERY IMPORTANT:
 

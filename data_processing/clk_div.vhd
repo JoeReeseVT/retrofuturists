@@ -1,11 +1,13 @@
 /*  
- *  Counter module to divide the 60 Hz vsync down to 10 Hz
+ *  Counter module to divide the 60 Hz vsync down to 30 Hz for use
+ *	by the velocity module. 
+ *
+ *	Input:
+ *		clk60 - 60 Hz vsync signal.
+ *
+ *	Output:
+ *		clk30 - 30 Hz output clock.
  *  
- *  Author(s):
- *    Joe
- *   
- *  Version: 0.1.0
- *  Updated: 15 Apr 2019 by Joe
  */
  
 library IEEE;
@@ -15,7 +17,7 @@ use IEEE.numeric_std.all;
 entity clk_div is
   port(
 	  clk60 : in  std_logic;
-		clk10 : out std_logic := '0'
+		clk30 : out std_logic
 	);
 end clk_div;
 
@@ -26,12 +28,14 @@ signal count : unsigned(1 downto 0);
 begin
   process (clk60) begin 
 	  if rising_edge(clk60) then
+		
 			if count = 2d"2" then
 				count <= 2d"0";
-				clk10 <= not clk10;
+				clk30 <= not clk30;
 			else
 				count <= count + 2d"1";
 			end if;
+			
 		end if;
 	end process;
 end;
